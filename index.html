@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OnlyCybercabs | The Premier Autonomous Cybercab Fleet Network</title>
+  <meta name="description" content="Experience OnlyCybercabs (www.onlycybercabs.com) — the next-generation autonomous Cybercab fleet network. Instant summons, wireless inductive charging, zero-driver luxury cabins, and private fleet hosting.">
+  <meta name="keywords" content="Cybercab, Robotaxi, OnlyCybercabs, autonomous fleet, driverless cab, Tesla Cybercab, inductive charging, private robotaxi fleet">
+  <meta name="theme-color" content="#07080d">
+
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Live Telemetry Status Bar -->
+  <aside class="telemetry-ticker" aria-label="Fleet Telemetry Status">
+    <div class="ticker-left">
+      <div class="ticker-item">
+        <span class="ticker-pulse" aria-hidden="true"></span>
+        <span>NETWORK STATUS: <strong>ONLINE // LEVEL 5 AUTONOMOUS</strong></span>
+      </div>
+      <div class="ticker-item mono">
+        <span>ACTIVE FLEET: <strong id="tickerFleetUnits">42 CYBERCABS</strong></span>
+      </div>
+      <div class="ticker-item mono">
+        <span>AUTONOMOUS MILES: <strong id="tickerMiles">1,428,590</strong></span>
+      </div>
+      <div class="ticker-item mono">
+        <span>SAFETY SCORE: <strong>99.98%</strong></span>
+      </div>
+    </div>
+    <div class="ticker-right">
+      <button id="soundToggleBtn" class="sound-toggle-btn active" title="Toggle UI Audio Synthesis">
+        <span>🔊</span>
+        <span class="sound-label">AUDIO: ON</span>
+      </button>
+      <span class="mono" style="color:var(--text-muted); font-size:0.75rem;">DOMAIN: WWW.ONLYCYBERCABS.COM</span>
+    </div>
+  </aside>
+
+  <!-- Main Navigation -->
+  <header>
+    <nav class="main-nav" aria-label="Main Navigation">
+      <a href="#" class="brand-logo">
+        <span class="brand-badge">FLEET</span>
+        <span class="brand-title">ONLYCYBERCABS</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#radar" class="nav-link">Live Radar</a></li>
+        <li><a href="#summon" class="nav-link">Summon Studio</a></li>
+        <li><a href="#technology" class="nav-link">Architecture</a></li>
+        <li><a href="#calculator" class="nav-link">Host Yields</a></li>
+        <li><a href="#membership" class="nav-link">VIP Access</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary open-host-modal-btn">Enroll Your Cab</button>
+        <a href="#summon" class="btn btn-primary" id="navSummonBtn">Summon Ride</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-content">
+        <div class="hero-tag mono">
+          <span>⚡</span> NEXT-GEN AUTONOMOUS MOBILITY
+        </div>
+        <h1 class="hero-title">
+          The Private Fleet of <span>Cybercabs.</span>
+        </h1>
+        <p class="hero-desc">
+          Zero steering wheel. Zero pedals. Pure uncompromised luxury. OnlyCybercabs delivers on-demand autonomous mobility powered by wireless inductive depots and intelligent dispatch.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#summon" class="btn btn-primary">
+            <span>Summon a Cybercab</span>
+            <span>→</span>
+          </a>
+          <a href="#radar" class="btn btn-secondary">
+            <span>Explore Live Radar</span>
+          </a>
+        </div>
+
+        <div class="hero-stats-grid">
+          <div class="stat-item">
+            <h4>&lt; 3 MIN</h4>
+            <p>Average Metro ETA</p>
+          </div>
+          <div class="stat-item">
+            <h4>100%</h4>
+            <p>Wireless Inductive</p>
+          </div>
+          <div class="stat-item">
+            <h4>$1.20</h4>
+            <p>Per Mile Starting Rate</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-backdrop" aria-hidden="true">
+        <img src="assets/cybercab-hero.jpg" alt="OnlyCybercabs Luxury Autonomous Fleet at Terminal">
+      </div>
+    </section>
+
+    <!-- Interactive Live Fleet Radar Map -->
+    <section class="section" id="radar">
+      <div class="section-header">
+        <span class="section-tag">TELEMETRY & GEOLOCATION</span>
+        <h2 class="section-title">Real-Time Autonomous Fleet Radar</h2>
+        <p class="section-desc">
+          Inspect live Cybercabs cruising through metropolitan corridors. Click any unit to monitor battery state of charge (SoC), autonomous vision telemetry, and dispatch status.
+        </p>
+      </div>
+
+      <div class="radar-layout">
+        <div class="radar-screen-container">
+          <div class="radar-header">
+            <div class="radar-title">
+              <span class="ticker-pulse" aria-hidden="true"></span>
+              <span>METROPOLITAN GRID SECTOR 01-04</span>
+            </div>
+            <span class="radar-status-pill mono">LIVE DISPATCH LINKED</span>
+          </div>
+
+          <canvas id="radarCanvas"></canvas>
+
+          <div class="radar-overlay-controls">
+            <button class="radar-filter-btn active" data-filter="all">All Fleet (7)</button>
+            <button class="radar-filter-btn" data-filter="available">Available (2)</button>
+            <button class="radar-filter-btn" data-filter="transit">In Transit (3)</button>
+            <button class="radar-filter-btn" data-filter="charging">Inductive Pads (2)</button>
+          </div>
+        </div>
+
+        <!-- Radar Inspector Sidebar -->
+        <aside class="radar-inspector" aria-label="Vehicle Inspector">
+          <div class="inspector-card">
+            <div class="inspector-header">
+              <div>
+                <h3 class="inspector-vehicle-name" id="inspectorCabName">Cybercab #01 Apex</h3>
+                <span class="mono" style="font-size:0.75rem; color:var(--text-muted);">VIN: 5YJ-CYBER-00109</span>
+              </div>
+              <span class="inspector-status status-available" id="inspectorCabStatus">AVAILABLE</span>
+            </div>
+
+            <div class="telemetry-row">
+              <span class="telemetry-label">Battery Level:</span>
+              <div>
+                <span class="telemetry-val" id="inspectorBatteryVal">94%</span>
+                <div class="battery-bar-container">
+                  <div class="battery-bar-fill" id="inspectorBatteryFill" style="width: 94%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="telemetry-row">
+              <span class="telemetry-label">Velocity:</span>
+              <span class="telemetry-val" id="inspectorSpeedVal">44 MPH</span>
+            </div>
+
+            <div class="telemetry-row">
+              <span class="telemetry-label">Cabin Temperature:</span>
+              <span class="telemetry-val" id="inspectorCabinTemp">21°C</span>
+            </div>
+
+            <div class="telemetry-row">
+              <span class="telemetry-label">Autonomous Neural Net:</span>
+              <span class="telemetry-val" id="inspectorFsdVersion">v13.4.2</span>
+            </div>
+
+            <div class="telemetry-row">
+              <span class="telemetry-label">Robotic Sanitization:</span>
+              <span class="telemetry-val" style="color:#10b981;">100% UV-C Sterilized</span>
+            </div>
+
+            <div class="telemetry-row">
+              <span class="telemetry-label">Host Rating:</span>
+              <span class="telemetry-val" id="inspectorRatingVal">★ 4.98 (18 rides)</span>
+            </div>
+
+            <button class="btn btn-primary quick-dispatch-btn" id="quickDispatchBtn">
+              Direct Dispatch This Unit
+            </button>
+          </div>
+
+          <div class="glass-panel" style="padding: 20px;">
+            <h4 style="font-size: 0.95rem; margin-bottom: 8px; color: var(--accent-cyan);">Autonomous Supervision</h4>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+              Every vehicle on OnlyCybercabs is connected to dual-redundant Starlink low-latency feeds with automated geofenced navigation.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Interactive Summon Studio & Cabin Ambiance -->
+    <section class="section" id="summon">
+      <div class="section-header">
+        <span class="section-tag">DISPATCH & CUSTOMIZATION</span>
+        <h2 class="section-title">Summon Your Cybercab Experience</h2>
+        <p class="section-desc">
+          Tailor your autonomous journey. Configure passenger tier, personalize your dual-cockpit ambient mood lighting, and simulate your instant summon.
+        </p>
+      </div>
+
+      <div class="summon-grid">
+        <!-- Booking Form Panel -->
+        <div class="summon-form-panel">
+          <h3 style="font-size: 1.35rem; margin-bottom: 24px;">Configure Autonomous Summon</h3>
+
+          <div class="form-group">
+            <label class="form-label" for="pickupSelect">Pickup Hub / Zone</label>
+            <div class="input-with-icon">
+              <span class="input-icon" aria-hidden="true">📍</span>
+              <select id="pickupSelect">
+                <option value="Downtown Core">Downtown Core (Sector 01 - Grand Central)</option>
+                <option value="Skyline Marina">Skyline Marina (Sector 02 - Waterfront Pad)</option>
+                <option value="Airport Skyway Hub">Airport Skyway Hub (Sector 03 - Terminal 4)</option>
+                <option value="Tech District">Silicon Strip (Sector 04 - Tech Hub)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dropoffSelect">Destination Hub</label>
+            <div class="input-with-icon">
+              <span class="input-icon" aria-hidden="true">🏁</span>
+              <select id="dropoffSelect">
+                <option value="Airport Skyway Hub">Airport Skyway Hub (Sector 03 - Terminal 4)</option>
+                <option value="Downtown Core">Downtown Core (Sector 01 - Grand Central)</option>
+                <option value="Skyline Marina">Skyline Marina (Sector 02 - Waterfront Pad)</option>
+                <option value="Financial Tower">Financial Tower Executive Helipad</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Fleet Tier Classification</label>
+            <div class="tier-selector">
+              <div class="tier-option selected" data-tier="solo" id="tierSolo">
+                <div class="tier-name">Solo Cab</div>
+                <div class="tier-desc">2-Seater Luxury</div>
+                <div class="tier-price">$1.20 / mi</div>
+              </div>
+              <div class="tier-option" data-tier="duo" id="tierDuo">
+                <div class="tier-name">Fleet Duo</div>
+                <div class="tier-desc">2 Synced Cabs</div>
+                <div class="tier-price">$2.10 / mi</div>
+              </div>
+              <div class="tier-option" data-tier="cargo" id="tierCargo">
+                <div class="tier-name">Airport Cargo</div>
+                <div class="tier-desc">Extra Luggage</div>
+                <div class="tier-price">$1.50 / mi</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cabin Mood Customizer -->
+          <div class="form-group">
+            <label class="form-label">Cabin Ambiance Lighting</label>
+            <div class="ambient-swatches">
+              <button class="swatch-btn active" style="background:#f59e0b;" data-color="amber" data-hex="#f59e0b" title="Cyber Amber" aria-label="Cyber Amber Ambiance"></button>
+              <button class="swatch-btn" style="background:#00f0ff;" data-color="cyan" data-hex="#00f0ff" title="Blade Runner Cyan" aria-label="Blade Runner Cyan Ambiance"></button>
+              <button class="swatch-btn" style="background:#a855f7;" data-color="violet" data-hex="#a855f7" title="Neo Tokyo Violet" aria-label="Neo Tokyo Violet Ambiance"></button>
+              <button class="swatch-btn" style="background:#ffffff;" data-color="white" data-hex="#ffffff" title="Falcon White" aria-label="Falcon White Ambiance"></button>
+            </div>
+          </div>
+
+          <!-- Live Fare Quote Summary -->
+          <div class="glass-panel" style="padding: 16px; margin: 24px 0;">
+            <div class="calc-breakdown-row" style="margin-bottom: 8px;">
+              <span>Estimated Wait:</span>
+              <span class="mono" id="quoteEta" style="color:var(--accent-cyan);">3 mins</span>
+            </div>
+            <div class="calc-breakdown-row" style="margin-bottom: 8px;">
+              <span>Route Distance:</span>
+              <span class="mono" id="quoteDistance">14.8 mi</span>
+            </div>
+            <div class="calc-breakdown-row" style="font-size: 1.1rem; border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+              <span style="font-weight: 600;">Estimated Total:</span>
+              <span class="mono" id="quotePrice" style="color:var(--accent-amber-light); font-weight:700;">$22.26</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="summonBtn" style="width: 100%; font-size: 1.05rem; padding: 16px;">
+            <span>SUMMON CYBERCAB NOW</span>
+          </button>
+        </div>
+
+        <!-- Cabin Preview & Dispatch Simulation Screen -->
+        <div class="summon-display-panel">
+          <div class="cabin-preview-box">
+            <img src="assets/cybercab-interior.jpg" alt="Interior view of Tesla Cybercab with autonomous display and no steering wheel">
+            <div class="cabin-ambient-overlay" id="cabinAmbientOverlay" aria-hidden="true"></div>
+            <div class="cabin-hud-overlay mono" id="cabinHudLighting">
+              AMBIANCE: AMBER
+            </div>
+          </div>
+
+          <!-- Live Simulation Feedback Card -->
+          <div class="simulation-card" id="simulationCard">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <h4 class="font-heading" style="color:var(--accent-amber-light); font-size:1.1rem;">Summon Progression</h4>
+              <button id="cancelSimBtn" class="sound-toggle-btn" style="color:var(--text-muted);">Reset</button>
+            </div>
+
+            <div class="simulation-steps">
+              <div class="sim-step active" id="simStep1">
+                <div class="sim-step-circle">1</div>
+                <div class="sim-step-label">AI Match</div>
+              </div>
+              <div class="sim-step" id="simStep2">
+                <div class="sim-step-circle">2</div>
+                <div class="sim-step-label">En Route</div>
+              </div>
+              <div class="sim-step" id="simStep3">
+                <div class="sim-step-circle">3</div>
+                <div class="sim-step-label">Arrived & Open</div>
+              </div>
+              <div class="sim-step" id="simStep4">
+                <div class="sim-step-circle">4</div>
+                <div class="sim-step-label">In Ride</div>
+              </div>
+            </div>
+
+            <p id="simStatusText" style="font-size:0.92rem; color:var(--text-primary); margin-bottom:12px;">
+              Allocating closest Cybercab unit with 90%+ battery...
+            </p>
+            <div id="simEtaCountdown" class="mono" style="font-size:0.85rem; color:var(--accent-cyan);">
+              Connecting...
+            </div>
+
+            <div id="simVehicleCard" class="glass-panel" style="display:none; padding:12px 18px; margin-top:14px; justify-content:space-between; align-items:center;">
+              <div>
+                <strong>Cybercab #01 Apex</strong>
+                <div class="mono" style="font-size:0.75rem; color:var(--text-muted);">Butterfly Doors Automatic • UV-C Cleaned</div>
+              </div>
+              <span class="mono" style="color:var(--accent-amber); font-weight:700;">★ 4.98</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Autonomous Technology & Specifications -->
+    <section class="section" id="technology">
+      <div class="section-header">
+        <span class="section-tag">HARDWARE & ROBOTICS ARCHITECTURE</span>
+        <h2 class="section-title">Engineered Exclusively for Autonomy</h2>
+        <p class="section-desc">
+          The OnlyCybercabs fleet features vehicles built strictly without legacy controls. Every component is optimized for ultra-low cost-per-mile passenger comfort.
+        </p>
+      </div>
+
+      <div class="specs-grid">
+        <article class="spec-card">
+          <div class="spec-card-icon">🧠</div>
+          <h3>Pure Vision FSD Neural Net</h3>
+          <p>
+            Zero driver, zero steering wheel, zero mechanical pedals. Driven by high-frame-rate surround vision processing millions of visual parameters per second.
+          </p>
+          <div class="spec-metrics">
+            <div class="spec-metric-item">
+              <strong>Level 5</strong>
+              <span>Full Autonomy</span>
+            </div>
+            <div class="spec-metric-item">
+              <strong>10x Safer</strong>
+              <span>Than Human Driver</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="spec-card">
+          <div class="spec-card-icon">⚡</div>
+          <h3>Resonant Inductive Charging</h3>
+          <p>
+            No plugs. No robotic arms needed to plug in. Cybercabs navigate over magnetic resonant induction pads for high-efficiency wireless fast charging.
+          </p>
+          <div class="spec-metrics">
+            <div class="spec-metric-item">
+              <strong>94% Efficiency</strong>
+              <span>Pad-to-Battery</span>
+            </div>
+            <div class="spec-metric-item">
+              <strong>185 kW</strong>
+              <span>Peak Wireless Rate</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="spec-card">
+          <div class="spec-card-icon">✨</div>
+          <h3>Robotic Autonomous Cleaning</h3>
+          <p>
+            Between passenger pickups, high-intensity hospital-grade UV-C sterilization lights and automated robotic sweepers ensure immaculate cabin hygiene.
+          </p>
+          <div class="spec-metrics">
+            <div class="spec-metric-item">
+              <strong>99.9%</strong>
+              <span>Sterilization</span>
+            </div>
+            <div class="spec-metric-item">
+              <strong>90 Sec</strong>
+              <span>Depot Cycle</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Spotlight Banner: Inductive Charging Depot -->
+      <div class="charging-spotlight-banner">
+        <div class="spotlight-media">
+          <img src="assets/cybercab-charging.jpg" alt="Autonomous Cybercab on glowing inductive wireless charging pad with robotic sanitization arms">
+        </div>
+        <div class="spotlight-content">
+          <div class="spotlight-tag">CONTINUOUS TURNAROUND</div>
+          <h3 class="spotlight-title">Automated Depots & Infinite Uptime</h3>
+          <p class="spotlight-desc">
+            Our private depot network operates 24/7/365. Cybercabs self-navigate into charging bays during low-demand periods, power up wirelessly via ground induction, undergo automated sanitation sweeps, and deploy back to peak passenger zones.
+          </p>
+          <div class="spotlight-badges">
+            <div class="spotlight-badge">⚡ Wireless Fast Charge</div>
+            <div class="spotlight-badge">🤖 Zero Human Handling</div>
+            <div class="spotlight-badge">🛡️ 99.98% Fleet Uptime</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fleet Host Yield Calculator -->
+    <section class="section" id="calculator">
+      <div class="section-header">
+        <span class="section-tag">FLEET PARTNER NETWORK</span>
+        <h2 class="section-title">Deploy Your Cybercab. Earn Passive Yield.</h2>
+        <p class="section-desc">
+          Do you own a Cybercab or reserved an allocation? Integrate your vehicle into the OnlyCybercabs network on <strong>www.onlycybercabs.com</strong> and earn daily returns while our autonomous infrastructure manages charging, dispatch, and cleaning.
+        </p>
+      </div>
+
+      <div class="calculator-box">
+        <div class="calculator-controls">
+          <h3 style="font-size: 1.35rem; margin-bottom: 24px;">Earnings Estimator</h3>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="calcCabsCount">Cybercabs Deployed</label>
+              <span class="slider-val" id="valCabsCount">2 Cybercabs</span>
+            </div>
+            <input type="range" id="calcCabsCount" min="1" max="20" step="1" value="2">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="calcHoursPerDay">Autonomous Operating Hours</label>
+              <span class="slider-val" id="valHoursPerDay">14 hrs / day</span>
+            </div>
+            <input type="range" id="calcHoursPerDay" min="4" max="22" step="1" value="14">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="calcAvgFare">Average Fare per Ride</label>
+              <span class="slider-val" id="valAvgFare">$18.00</span>
+            </div>
+            <input type="range" id="calcAvgFare" min="10" max="35" step="1" value="18">
+          </div>
+
+          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-top: 16px;">
+            *Estimates based on metropolitan trip frequency, 12% OnlyCybercabs platform management fee, and typical inductive wireless power consumption.
+          </p>
+        </div>
+
+        <div class="calc-results-card">
+          <div class="calc-net-label">Projected Net Host Payout</div>
+          <div class="calc-net-amount" id="calcNetMonthly">$23,540</div>
+          <div class="calc-net-period">Per Month (Net Profit)</div>
+
+          <div class="calc-breakdown">
+            <div class="calc-breakdown-row">
+              <span>Gross Daily Bookings:</span>
+              <span id="calcGrossDaily">$907</span>
+            </div>
+            <div class="calc-breakdown-row">
+              <span>Platform & Power Deductions:</span>
+              <span id="calcPowerCost" style="color:#ef4444;">-$136 / day</span>
+            </div>
+            <div class="calc-breakdown-row">
+              <span>Estimated Annual Yield:</span>
+              <span id="calcNetAnnual" style="color:var(--accent-amber); font-weight:700;">$282,480</span>
+            </div>
+            <div class="calc-breakdown-row">
+              <span>CO2 Emissions Prevented:</span>
+              <span id="calcCo2Offset" style="color:#10b981;">7.1 Tons / mo</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary open-host-modal-btn" style="width: 100%;">
+            Enroll Your Cybercab
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIP & Corporate Fleet Membership -->
+    <section class="section" id="membership">
+      <div class="section-header">
+        <span class="section-tag">PREMIUM PROGRAM</span>
+        <h2 class="section-title">Fleet Membership Tiers</h2>
+        <p class="section-desc">
+          Priority dispatch, dedicated Cybercab reservations, and zero surge pricing for individuals and corporate enterprises.
+        </p>
+      </div>
+
+      <div class="specs-grid">
+        <div class="glass-panel">
+          <div class="mono" style="color:var(--accent-cyan); font-size:0.85rem; margin-bottom:8px;">ON-DEMAND TIER</div>
+          <h3 style="font-size:1.6rem; margin-bottom:8px;">CyberPay As You Go</h3>
+          <p style="color:var(--text-secondary); margin-bottom:20px;">Ideal for personal city commuters wanting driverless luxury whenever needed.</p>
+          <div class="mono" style="font-size:2rem; font-weight:700; margin-bottom:20px;">$0 <span style="font-size:0.9rem; color:var(--text-muted);">/ month</span></div>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; font-size:0.9rem; margin-bottom:24px;">
+            <li>✓ Pay per mile ($1.20 base)</li>
+            <li>✓ Instant mobile summon</li>
+            <li>✓ Customizable cabin ambiance</li>
+            <li>✓ Automatic UV-C sanitation</li>
+          </ul>
+          <a href="#summon" class="btn btn-secondary" style="width:100%;">Start Riding</a>
+        </div>
+
+        <div class="glass-panel" style="border-color:var(--accent-amber); box-shadow:0 8px 30px var(--accent-amber-glow);">
+          <div class="mono" style="color:var(--accent-amber); font-size:0.85rem; margin-bottom:8px;">★ MOST POPULAR</div>
+          <h3 style="font-size:1.6rem; margin-bottom:8px;">OnlyCybercabs Black</h3>
+          <p style="color:var(--text-secondary); margin-bottom:20px;">Priority summon allocation with zero wait times and guaranteed airport pickups.</p>
+          <div class="mono" style="font-size:2rem; font-weight:700; margin-bottom:20px; color:var(--accent-amber-light);">$199 <span style="font-size:0.9rem; color:var(--text-muted);">/ month</span></div>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; font-size:0.9rem; margin-bottom:24px;">
+            <li>✓ Priority radar queue allocation</li>
+            <li>✓ Zero surge multipliers 24/7</li>
+            <li>✓ 15% discount on all mileage</li>
+            <li>✓ Executive Cybercab Duo access</li>
+            <li>✓ Dedicated flight arrival tracking</li>
+          </ul>
+          <button class="btn btn-primary" style="width:100%;" onclick="window.showToast('OnlyCybercabs Black Membership reserved! Welcome aboard.', 'success')">Join Black Pass</button>
+        </div>
+
+        <div class="glass-panel">
+          <div class="mono" style="color:var(--accent-violet); font-size:0.85rem; margin-bottom:8px;">ENTERPRISE</div>
+          <h3 style="font-size:1.6rem; margin-bottom:8px;">Corporate Fleet Hub</h3>
+          <p style="color:var(--text-secondary); margin-bottom:20px;">Dedicated fleet shuttles for executive teams, conferences, and office campuses.</p>
+          <div class="mono" style="font-size:2rem; font-weight:700; margin-bottom:20px;">Custom</div>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; font-size:0.9rem; margin-bottom:24px;">
+            <li>✓ Dedicated geofenced Cybercab pool</li>
+            <li>✓ Custom brand welcome screen on 21" display</li>
+            <li>✓ Centralized employee billing & API</li>
+            <li>✓ SLA 99.99% availability guarantee</li>
+          </ul>
+          <button class="btn btn-secondary" style="width:100%;" onclick="window.showToast('Corporate inquiry initiated. An enterprise fleet manager will contact you.', 'info')">Inquire Corporate</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Host Enrollment Modal -->
+  <div id="hostModal" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(4,6,10,0.85); backdrop-filter:blur(10px); z-index:1000; align-items:center; justify-content:center; padding:20px;" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="glass-panel" style="max-width:520px; width:100%; background:var(--bg-surface); border:1px solid var(--border-glow); position:relative;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 id="modalTitle" style="font-size:1.4rem;">Enroll Cybercab into Fleet</h3>
+        <button id="closeHostModalBtn" style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;">&times;</button>
+      </div>
+      <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:24px;">
+        Connect your autonomous vehicle to <strong>www.onlycybercabs.com</strong>. We handle wireless charging, customer dispatch, cleaning, and revenue payouts.
+      </p>
+
+      <form id="hostEnrollmentForm">
+        <div class="form-group">
+          <label class="form-label" for="hostNameInput">Owner / Operator Name</label>
+          <div class="input-with-icon">
+            <input type="text" id="hostNameInput" required placeholder="e.g. Alex Vance">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="hostEmailInput">Email Address</label>
+          <div class="input-with-icon">
+            <input type="email" id="hostEmailInput" required placeholder="alex@company.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="hostVinInput">Cybercab VIN / Reservation Identifier</label>
+          <div class="input-with-icon">
+            <input type="text" id="hostVinInput" required placeholder="5YJ-CYBER-XXXXXX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="hostCityInput">Primary Deployment City</label>
+          <div class="input-with-icon">
+            <select id="hostCityInput">
+              <option value="Austin">Austin, TX (Gigafactory Hub)</option>
+              <option value="San Francisco">San Francisco Bay Area</option>
+              <option value="Los Angeles">Los Angeles / Metro Coast</option>
+              <option value="Miami">Miami, FL</option>
+              <option value="Las Vegas">Las Vegas / Vegas Loop</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:8px;">Submit Fleet Registration</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="brand-logo" style="margin-bottom:12px;">
+          <span class="brand-badge">FLEET</span>
+          <span class="brand-title">ONLYCYBERCABS</span>
+        </a>
+        <p>
+          The premier autonomous Cybercab fleet network on <strong>www.onlycybercabs.com</strong>. Pioneering driverless luxury, intelligent dispatch, and wireless inductive energy.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Fleet Network</h5>
+        <ul>
+          <li><a href="#radar">Live Radar Map</a></li>
+          <li><a href="#summon">Summon Studio</a></li>
+          <li><a href="#technology">Autonomous Specs</a></li>
+          <li><a href="#technology">Inductive Charging</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Fleet Host</h5>
+        <ul>
+          <li><a href="#calculator">Yield Calculator</a></li>
+          <li><a href="#" class="open-host-modal-btn">Enroll Cybercab</a></li>
+          <li><a href="#membership">Membership Passes</a></li>
+          <li><a href="#radar">Depot Network</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Autonomous Core</h5>
+        <ul>
+          <li><span class="mono" style="font-size:0.85rem; color:var(--accent-cyan);">Level 5 FSD Active</span></li>
+          <li><span class="mono" style="font-size:0.85rem; color:var(--text-secondary);">Inductive Pad v4.2</span></li>
+          <li><span class="mono" style="font-size:0.85rem; color:var(--text-secondary);">Starlink Telemetry</span></li>
+          <li><span class="mono" style="font-size:0.85rem; color:#10b981;">● All Systems Normal</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        &copy; 2026 OnlyCybercabs Fleet Network (www.onlycybercabs.com). All rights reserved.
+      </div>
+      <div class="mono">
+        SAFETY PROTOCOL 100 // PURE AUTONOMY
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/fleet-map.js"></script>
+  <script src="js/booking-simulator.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
